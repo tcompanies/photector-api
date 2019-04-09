@@ -1,0 +1,504 @@
+{
+	"info": {
+		"_postman_id": "13870b6b-59b6-4c2c-95c4-9eb3eddc7b71",
+		"name": "PHOTECTOR API EXAMPLES",
+		"description": "Photector API examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "type.1) getAccessToken grant-type=client-credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b4dcc43c-9bbd-4f0e-b153-fe5cfb4fd931",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://app.photector.com/oauth/token",
+							"protocol": "https",
+							"host": [
+								"app",
+								"photector",
+								"com"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "This request uses your environment username/password plus id/secret to login and set your environment access_token (using a postman test script)."
+					},
+					"response": []
+				},
+				{
+					"name": "type.1alt) getAccessToken grant-type=client-credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b4dcc43c-9bbd-4f0e-b153-fe5cfb4fd931",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id_alt}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret_alt}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://app.photector.com/oauth/token",
+							"protocol": "https",
+							"host": [
+								"app",
+								"photector",
+								"com"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "This request uses your environment username/password plus id/secret to login and set your environment access_token (using a postman test script)."
+					},
+					"response": []
+				},
+				{
+					"name": "type.2) getAccessToken grant-type=password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b4dcc43c-9bbd-4f0e-b153-fe5cfb4fd931",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://app.photector.com/oauth/token",
+							"protocol": "https",
+							"host": [
+								"app",
+								"photector",
+								"com"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "type.3) getAccessToken grant-type=both",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b4dcc43c-9bbd-4f0e-b153-fe5cfb4fd931",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://app.photector.com/oauth/token",
+							"protocol": "https",
+							"host": [
+								"app",
+								"photector",
+								"com"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						},
+						"description": "This request uses your environment username/password plus id/secret to login and set your postman environment's access_token variable (using a postman test script)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "event requests",
+			"item": [
+				{
+					"name": "createEventRequest",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "EnterNameOfRecipientHere",
+									"description": "Required. Name of the event request recipient",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "EnterEventDescriptIonHere",
+									"description": "Required. Description of the event",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "enterrecipient@emailhere.com",
+									"description": "Optional. Email address of recipient for notification",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "612-555-5555",
+									"description": "Optional. Phone number of recipeint for notification",
+									"type": "text"
+								},
+								{
+									"key": "expired_at",
+									"value": "2021-11-30T05:59:59.999Z",
+									"description": "Optional. Expiration date of event request. Format like 2021-11-30T05:59:59.999Z",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/oneTimeEvents",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"oneTimeEvents"
+							]
+						},
+						"description": "Alternately, for authentication you can enter your \"Company Access Token\"* directly into the Postman environment variable named \"access_token\". \n\n* from https://app.photector.com/developer"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "events",
+			"item": [
+				{
+					"name": "listEvents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/events?q=chicago&page=1&perPage=5&sort=date",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "chicago",
+									"description": "Free-form search query. Searches Event IDs, descriptions, tags, recorder name, username, description, record notes, and OCR text."
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number to retreive"
+								},
+								{
+									"key": "perPage",
+									"value": "5",
+									"description": "Number of records returned per page"
+								},
+								{
+									"key": "sort",
+									"value": "date",
+									"description": "Specify a field to sort the results by"
+								},
+								{
+									"key": "descending",
+									"value": "<boolean>",
+									"description": "Whether to sort the results in descending order.<br>Note: defaults to true when sorting by date.",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "<dateTime>",
+									"description": "Only return events recorded on or after the specified start date (RFC 3339).",
+									"disabled": true
+								},
+								{
+									"key": "stopDate",
+									"value": "<dateTime>",
+									"description": "Only return events recorded on or before the specified end date (RFC 3339).",
+									"disabled": true
+								},
+								{
+									"key": "all",
+									"value": "<boolean>",
+									"description": "Whether to return all events for a company or only events for the currently logged-in user.<br>Note: defaults to true when authenticated with a company API token.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Retrieve a list of all your company's events. Can be filtered by a search clause and/or date range. Sorted and paged."
+					},
+					"response": []
+				},
+				{
+					"name": "verifySingleEvent",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{baseUrl}}/events/{{eventId1}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"{{eventId1}}"
+							]
+						},
+						"description": "Get metadata for one event. Requires authentication type.1"
+					},
+					"response": []
+				},
+				{
+					"name": "verifyMultipleEvents",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\"{{eventId1}}\",\"{{eventId2}}\",\"{{eventId3}}\",\"{{eventId4}}\"]"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/events/verify",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9f840b09-bbac-47de-92a9-340675201045",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c8ce7ef3-437d-43f9-a308-043739874bae",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

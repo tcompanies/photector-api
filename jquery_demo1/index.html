@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+
+<!-- ################################################################# -->
+<!--                                                                   -->
+<!-- Demonstrate creation of Photector Event Requests using            -->
+<!-- the Company Access Token (i.e. a long-lived Bearer Token).        -->
+
+<html>
+
+
+
+<!-- ################################################################# -->
+<!-- HTML head                                                         -->
+<!--                                                                   -->
+
+<head>
+
+
+
+    <!-- ################################################################# -->
+    <!-- COMPANY_ACCESS_TOKEN is a long-lived Bearer token supplied        -->
+    <!-- by Photector on the https://app.photector.com/developer page.     -->
+    <!-- You must paste it here, in the code                               -->
+    <script>
+        const COMPANY_ACCESS_TOKEN = 'PASTE-COMPANY-ACCESS-TOKEN-HERE';
+    </script>
+
+
+
+
+
+    <!-- ################################################################# -->
+    <!-- Load jQuery library from Google's CDN                             -->
+    <!-- See: https://blog.jquery.com/category/jquery/                     -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <!-- ################################################################# -->
+    <!-- This is used to generate a QR code image                          -->
+    <!-- See: https://larsjung.de/jquery-qrcode/                           -->
+    <script src="https://cdn.jsdelivr.net/gh/lrsjng/jquery-qrcode/dist/jquery-qrcode.min.js"></script>
+
+
+    <!-- ################################################################# -->
+    <!-- Title and metadata                                                -->
+    <title>PHOTECTOR JQUERY DEMO2</title>
+    <meta charset="UTF-8" />
+</head>
+
+
+
+
+
+<!-- ################################################################# -->
+<!-- HTML body                                                         -->
+<!--                                                                   -->
+
+<body>
+
+    <!-- ################################################################# -->
+    <!-- Title, introduction and error-text for when credentials are unset -->
+
+    <div id="noCredentialsWarning" class="invisible">
+        <label class="titleStyle">Edit access token in index.html</label>
+        <p class="introParagraph">
+            Before you can create an Event Request you must first obtain a
+            Company Access Token from the <a href="https://app.photector.com/developer">
+            Developer Information</a> page, logged in as an <i>Administrator</i>.
+            The supplied token must be pasted into this <i>index.html</i> file
+            as <i>COMPANY_ACCESS_TOKEN</i>.
+        </p>
+    </div>
+
+    <div id="introParagraph" class="invisible">
+        <label class="titleStyle">Create an Event Request</label>
+        <p class="introParagraph">
+
+            You can create an Event Request by sending an email or text/SMS message
+            to anyone, including people who do not have a PHOTECTOR account. This
+            lets them download PHOTECTOR and create an event on your behalf. Once
+            they download, capture, and submit the event it will be immediately
+            available to you on your dashboard.
+        </p>
+    </div>
+
+    
+
+    <!-- ################################################################# -->
+    <!--                                                                   -->
+    <!-- All event creation data-entry fields -->
+    <!--                                                                   -->
+
+    <div id="inputForm">
+        <input id="input_description" type="text" value="" placeholder="Event Description"><br>
+        <input id="input_name" type="text" value="" placeholder="Recipient Name"><br>
+        <input id="input_phone" type="text" value="" placeholder="Optional Recipient SMS/Phone #"><br>
+        <input id="input_email" type="text" value="" placeholder="Optional Recipient Email"><br>
+        <input id="input_tags" type="text" value="" placeholder="Optional up to 20 Event Tags"><br>
+        <input id="input_expires" type="text" value="" placeholder="Optional Expiry Date (mm/dd/yy)"><br>
+
+        <!-- submit button -->
+        <br>
+        <span><button id="createERButton" class="createButton">CREATE EVENT REQUEST</button></span>
+        <br>
+    </div>
+
+
+
+    <!-- ################################################################# -->
+    <!--                                                                   -->
+    <!-- This HTML is made visible only after the Event Request is         -->
+    <!-- successfully created.                                             -->
+    <!--                                                                   -->
+
+    <div id="newERInformation" class="invisible">
+        <br><br><br>
+        <div class="newERInformationStyle">
+            <b>Event Request Code: <label id="hashId"></label></b><br>
+            <br>Recipient web-link to your Event Request:<br>
+            <a id="erLinkHref" target="_blank" href="">
+                <label id="erLinkText"></label>
+            </a><br>
+            <i>(send this to your recipient if necessary)</i>
+            <br>
+            <br>QR-Code for recipient web-link:<br>
+            <div id="erQrCode"></div><br>
+            <br>
+        </div>
+    </div>
+
+
+
+    <!-- ################################################################# -->
+    <!--                                                                   -->
+    <!-- status toolbar, with default message                              -->
+    <!--                                                                   -->
+
+    <div id="toolbar" class="toolbar">
+        Loading page...
+    </div>
+
+
+<!--                                                                   -->
+<!-- End of HTML                                                       -->
+<!--                                                                   -->
+<!-- ################################################################# -->
+
+
+
+
+
+
+
+<!-- ################################################################# -->
+<!-- STYLE SHEET                                                       -->
+<!--                                                                   -->
+
+<style>
+
+    body {
+        font-family: roboto, sans-serif;
+        font-size: small;
+        color: #333333;
+    }
+    
+    input[type=text], input[type=password] {
+        width: 200px;
+    }
+    
+    .introParagraph {
+        width: 320px;
+    }
+    
+    .yellowText {
+        color: #CC8A13; 
+        font-weight: bold;
+    }
+    
+    .toolbar {
+        border: none;
+        padding: 0;
+        background-color: #CC8A13;
+        overflow: hidden;
+        position: fixed;
+        bottom: 0.5%;
+        left: 0.5%;
+        right: 0.5%;
+        color: darkred;
+        border-radius: 2px;
+        font-style: italic;
+    }
+    
+    .invisible {
+        display: none;
+    }
+    
+    .titleStyle {
+        width: 320px;
+        /* background-color: #FFAA11;
+        color: white; */
+        color: #FFAA11;
+        font-weight: bold;
+        font-size: large;
+        border: none;
+        padding: 5;
+        top: 1;
+        left: 1;
+        display: inline-block
+    }
+    
+    .newERInformationStyle {
+        border-top: 1px solid black;
+        color: gray;
+        font-family: sans-serif;
+        line-height: 1.5em;
+        background-color: gainsboro;
+    }
+    
+    .createButton {
+        font-weight: bold;
+        border: none;
+        padding: 5;
+        border-radius: 2px;
+        background-color: #FFAA11;
+        color: black;
+        cursor: pointer;
+    }
+    
+    /* ################################################################# */
+    /* END THE STYLE SHEET SECTION                                       */
+
+</style>
+
+
+
+        
+
+<!-- ################################################################# -->
+<!--                                                                   -->
+<!--   UI Program Code                                                 -->
+<!--                                                                   -->
+<!--   This code builds the event request creation REST API invocation -->
+<!--   from the data entered, submits it, and displays the return data -->
+<!--   on success.                                                     -->
+<!--                                                                   -->
+
+<script>
+
+
+// run main() when document is loaded and ready
+$(document).ready(function() { main(); });
+
+
+
+// main function, runs when document loaded
+var main = function() {
+    clearToolbarMsg();
+
+    // run createER() function when button clicked
+    $('#createERButton').on('click', createER);
+
+    // show the correct intro paragraph
+    showOrHideIntroParagraph();
+}
+
+// depending on whether company access token has been pasted, 
+// show or hide the appropriate paragraph
+var showOrHideIntroParagraph = function() {
+    if (COMPANY_ACCESS_TOKEN == 'PASTE-COMPANY-ACCESS-TOKEN-HERE') {
+        $('#introParagraph').addClass('invisible');
+        $('#inputForm').addClass('invisible');
+        $('#noCredentialsWarning').removeClass('invisible');
+    } else {
+        $('#introParagraph').removeClass('invisible');
+    }
+};
+
+
+
+
+// Helper functions for logging messages to toolbar or proof message
+var toolbarMsg = function(msg) { $("#toolbar").html(msg); };
+var clearToolbarMsg = function() { toolbarMsg(''); };
+
+
+
+
+
+// helper function to format Date string or object properly for the API
+// example: "11/30/18" should be formatted as "2018-11-30T05:59:59.999Z"
+var getDateAsNullOrISO = function(dateOrString) {
+    if (dateOrString == undefined ||
+        dateOrString.toString() == null ||
+        dateOrString.toString().length == 0)
+    {
+        return  null;
+    }
+    try {
+        var dateString = dateOrString.toString();
+        var isoString = (new Date(Date.parse(dateString))).toISOString();
+        return isoString;
+    } catch (err) {
+        toolbarMsg('Invalid date');
+        return null;
+    }
+};
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+//
+// createER()
+//
+// Creates the event request by invoking the PHOTECTOR API REST request,
+// then either displaying the ER data on success, or the error message 
+// on failure.
+
+
+var createER = function() {
+    // hide return data section, it will be shown on success
+    $('#newERInformation').addClass('invisible');
+
+    // invoke the API, with success and failure handling
+    invokeCreateER(function success(erData) {
+        // log success response data to console
+        console.group('Success creating ER');
+        console.log(erData);
+        console.groupEnd();
+
+        // display the QR code section of the page
+        displayNewlyCreatedER(erData);
+
+    }, function error(errInfo) {
+        // log error to console
+        console.group('Error creating ER');
+        console.error(errInfo);
+        console.groupEnd();
+
+        // parse the human-readable text out of the errInfo object.
+        // a production app could do more field-specific handling.
+        var errMsg = errInfo.statusText;
+        if (errInfo.responseJSON != undefined) {
+            errMsg = JSON.stringify(errInfo.responseJSON).replace(/[\[\{\]\}]/g,'');
+        }
+
+        // display error on toolbar
+        toolbarMsg('Error creating Event Request: ' + errMsg);
+    });
+};
+
+
+
+var invokeCreateER = function(successCallback, errorCallback) {
+    clearToolbarMsg();
+
+    try {
+        var ajaxData = {
+            url: 'https://app.photector.com/api/v1/oneTimeEvents',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
+            headers: { Authorization: 'Bearer ' + COMPANY_ACCESS_TOKEN },
+            data: {
+                name: $('#input_name').val(), // pulling data from input form
+                description: $('#input_description').val(),
+                expired_at: getDateAsNullOrISO($('#input_expires').val()),
+                tags: $('#input_tags').val().split(' '), // tags must be an array of strings
+                email: $('#input_email').val(),
+                phone: $('#input_phone').val()
+            },
+            success: function(data) { successCallback(data.data) },
+            error: function (error) { errorCallback(error) }
+        };
+
+        // null or empty parameters should be deleted from JSON object
+        if (ajaxData.data.expired_at == undefined || ajaxData.data.expired_at == '') {
+            delete ajaxData.data.expired_at;
+        }
+        if (ajaxData.data.phone == undefined || ajaxData.data.phone == '') {
+            delete ajaxData.data.phone;
+        }
+        if (ajaxData.data.email == undefined || ajaxData.data.email == '') {
+            delete ajaxData.data.email;
+        }
+
+        // send the ajax request
+        $.ajax(ajaxData);
+
+    } catch(err) {
+        errorCallback(err);
+    }
+};
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+// displayNewlyCreatedER()
+//
+// Populate the "newERInformationStyle" div and make it visible.
+// This step is not required to create the ER but just serves as
+// an example of how the return data may be used.
+
+var displayNewlyCreatedER = function(erData) {
+    // get hashId for statusBar and ER section
+    var hashId = erData.attributes.hash_id;
+    toolbarMsg('Created Event Request #: ' + hashId);
+
+    // fill in the sections of the new ER information div
+    var a = erData.attributes;
+    $('#recipientName').html(a.name);
+    if (a.sender != undefined) {
+        $('#senderName').html(a.sender.name);
+    }
+    $('#hashId').html(a.hash_id);
+    $('#erLinkText').html(a.link);
+    $('#erLinkHref').attr('href', a.link);
+    qrCodeElement = $('#erQrCode');
+    qrCodeElement.html('');
+    qrCodeElement.qrcode({render: 'image', text: a.link});
+
+    // make the new ER information section visible
+    $('#newERInformation').removeClass('invisible');
+};
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+// END THE SCRIPT & BODY & HTML SECTIONS
+
+</script>
+</body>
+</html>
