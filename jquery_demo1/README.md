@@ -1,6 +1,3 @@
-TODO ADD COMMENT ABOUT "DON"T EMBED TOKEN"
-
-
 <!-- Photector logo, centered -->
 <p align="center"><img src="./assets/Logo-Vertical-Shaded.svg" width="300"></p><br>
 
